@@ -14,6 +14,7 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+import java.awt.Font;
 
 public class TelaCadastroCliente extends JDialog {
 
@@ -51,6 +52,16 @@ public class TelaCadastroCliente extends JDialog {
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
+		{
+			JLabel lblCadastroCliente = new JLabel("Cadastro Cliente");
+			lblCadastroCliente.setFont(new Font("Tahoma", Font.BOLD, 16));
+			GridBagConstraints gbc_lblCadastroCliente = new GridBagConstraints();
+			gbc_lblCadastroCliente.gridwidth = 8;
+			gbc_lblCadastroCliente.insets = new Insets(0, 0, 5, 5);
+			gbc_lblCadastroCliente.gridx = 0;
+			gbc_lblCadastroCliente.gridy = 0;
+			contentPanel.add(lblCadastroCliente, gbc_lblCadastroCliente);
+		}
 		{
 			JLabel lblNome = new JLabel("Nome");
 			GridBagConstraints gbc_lblNome = new GridBagConstraints();
