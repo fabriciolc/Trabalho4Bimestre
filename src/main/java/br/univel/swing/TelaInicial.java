@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-
+import mysql	
 public class TelaInicial extends JFrame {
 
 	private JPanel contentPane;
