@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
-import mysql	
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+	
 public class TelaInicial extends JFrame {
 
 	private JPanel contentPane;
@@ -48,6 +50,12 @@ public class TelaInicial extends JFrame {
 		mnMenu.add(mnPedidos);
 		
 		JMenuItem mntmNovoPedido = new JMenuItem("Novo Pedido");
+		mntmNovoPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+			}
+		});
 		mnPedidos.add(mntmNovoPedido);
 		
 		JMenuItem mntmListaDePedidos = new JMenuItem("Lista de Pedidos");
