@@ -3,6 +3,10 @@ package br.univel.model;
 public class Categoria {
 	private int id;
 	private String categoria;
+	
+	
+	
+	
 	public int getId() {
 		return id;
 	}

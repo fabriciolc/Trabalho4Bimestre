@@ -52,7 +52,7 @@ public class TelaCadastroCategoria extends JDialog {
 			lblNovaCategoria.setFont(new Font("Tahoma", Font.BOLD, 16));
 			GridBagConstraints gbc_lblNovaCategoria = new GridBagConstraints();
 			gbc_lblNovaCategoria.gridwidth = 5;
-			gbc_lblNovaCategoria.insets = new Insets(0, 0, 5, 5);
+			gbc_lblNovaCategoria.insets = new Insets(0, 0, 5, 0);
 			gbc_lblNovaCategoria.gridx = 0;
 			gbc_lblNovaCategoria.gridy = 0;
 			contentPanel.add(lblNovaCategoria, gbc_lblNovaCategoria);
@@ -87,6 +87,14 @@ public class TelaCadastroCategoria extends JDialog {
 			textField.setColumns(10);
 		}
 		{
+			JButton btnInserir = new JButton("Inserir");
+			GridBagConstraints gbc_btnInserir = new GridBagConstraints();
+			gbc_btnInserir.insets = new Insets(0, 0, 5, 5);
+			gbc_btnInserir.gridx = 2;
+			gbc_btnInserir.gridy = 2;
+			contentPanel.add(btnInserir, gbc_btnInserir);
+		}
+		{
 			JList list = new JList();
 			GridBagConstraints gbc_list = new GridBagConstraints();
 			gbc_list.gridheight = 5;
@@ -97,17 +105,36 @@ public class TelaCadastroCategoria extends JDialog {
 			contentPanel.add(list, gbc_list);
 		}
 		{
+			JButton btnExcluir = new JButton("Excluir");
+			GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+			gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
+			gbc_btnExcluir.gridx = 2;
+			gbc_btnExcluir.gridy = 3;
+			contentPanel.add(btnExcluir, gbc_btnExcluir);
+		}
+		{
+			JButton btnNewButton = new JButton("Editar");
+			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+			gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
+			gbc_btnNewButton.gridx = 2;
+			gbc_btnNewButton.gridy = 5;
+			contentPanel.add(btnNewButton, gbc_btnNewButton);
+		}
+		{
+			JButton btnNewButton_1 = new JButton("Salvar");
+			btnNewButton_1.setEnabled(false);
+			GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+			gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+			gbc_btnNewButton_1.gridx = 2;
+			gbc_btnNewButton_1.gridy = 6;
+			contentPanel.add(btnNewButton_1, gbc_btnNewButton_1);
+		}
+		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Sair");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

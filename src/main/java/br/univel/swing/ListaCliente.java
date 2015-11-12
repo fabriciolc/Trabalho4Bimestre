@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class ListaCliente extends JDialog {
+	private static ListaCliente instacia;
+	
 
 	private final JPanel contentPanel = new JPanel();
 
@@ -23,6 +25,13 @@ public class ListaCliente extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static ListaCliente getInstacia(){
+		if(instacia == null)
+			return instacia = new ListaCliente();
+			
+		return instacia;
 	}
 
 	/**
