@@ -7,14 +7,24 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.JComboBox;
+
+import br.univel.model.Cliente;
+import br.univel.model.ClienteDaoImpl;
+
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaCadastroCliente extends JDialog {
 
@@ -24,6 +34,9 @@ public class TelaCadastroCliente extends JDialog {
 	private JTextField text_endereco;
 	private JTextField text_cidade;
 	private JTextField text_email;
+	private static TelaCadastroCliente instacia;
+	private JComboBox cmb_estado;
+	private JComboBox cmb_Genero;
 
 	/**
 	 * Launch the application.
@@ -36,6 +49,12 @@ public class TelaCadastroCliente extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static TelaCadastroCliente getInstacia(){
+		if(instacia == null)
+			instacia = new TelaCadastroCliente();
+		return instacia;
 	}
 
 	/**
@@ -92,7 +111,7 @@ public class TelaCadastroCliente extends JDialog {
 			contentPanel.add(lblGenero, gbc_lblGenero);
 		}
 		{
-			JComboBox cmb_Genero = new JComboBox();
+			cmb_Genero = new JComboBox();
 			GridBagConstraints gbc_cmb_Genero = new GridBagConstraints();
 			gbc_cmb_Genero.insets = new Insets(0, 0, 5, 0);
 			gbc_cmb_Genero.fill = GridBagConstraints.HORIZONTAL;
@@ -170,7 +189,7 @@ public class TelaCadastroCliente extends JDialog {
 			contentPanel.add(lblEmail, gbc_lblEmail);
 		}
 		{
-			JComboBox cmb_estado = new JComboBox();
+			cmb_estado = new JComboBox();
 			GridBagConstraints gbc_cmb_estado = new GridBagConstraints();
 			gbc_cmb_estado.fill = GridBagConstraints.HORIZONTAL;
 			gbc_cmb_estado.insets = new Insets(0, 0, 5, 0);
@@ -204,6 +223,12 @@ public class TelaCadastroCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						salvar();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -214,6 +239,23 @@ public class TelaCadastroCliente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void salvar() {
+		Cliente c = new Cliente();
+		c.setNome(text_nome.getText()); 
+		c.setEmail(text_email.getText());
+		c.setTelefone(text_telefone.getText());
+		c.setCidade(text_cidade.getText());
+		c.setEndereco(text_cidade.getText());
+//		c.setEstado(cmb_estado.getSelectedItem().toString());
+//		c.setGenero(cmb_Genero.getSelectedItem().toString());
+		c.setEstado("Estado");
+		c.setGenero("Genero");
+		
+		ClienteDaoImpl cdi = new ClienteDaoImpl();
+		cdi.inserir(c);
+		
 	}
 
 }

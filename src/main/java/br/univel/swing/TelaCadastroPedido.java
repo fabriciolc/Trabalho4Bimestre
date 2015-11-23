@@ -15,6 +15,7 @@ import java.awt.Insets;
 import javax.swing.JList;
 
 public class TelaCadastroPedido extends JDialog {
+	private static TelaCadastroPedido instancia; 
 
 	private final JPanel contentPanel = new JPanel();
 
@@ -30,6 +31,14 @@ public class TelaCadastroPedido extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
+	public static TelaCadastroPedido getInstacia(){
+		if(instancia == null)
+			instancia = new TelaCadastroPedido();
+		return instancia;
+		
+	}
+	
 
 	/**
 	 * Create the dialog.
