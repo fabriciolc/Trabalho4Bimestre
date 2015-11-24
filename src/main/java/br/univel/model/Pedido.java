@@ -4,20 +4,20 @@ import java.math.BigDecimal;
 
 public class Pedido {
 
-	private Cliente cliente;
-	private Produto produto;
+	private String cliente;
+	private String produto;
 	private BigDecimal preco;
 
-	public Cliente getCliente() {
+	public String getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
+	public void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
-	public Produto getProduto() {
+	public String getProduto() {
 		return produto;
 	}
-	public void setProduto(Produto produto) {
+	public void setProduto(String produto) {
 		this.produto = produto;
 	}
 	public BigDecimal getPreco() {

@@ -7,18 +7,29 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
+
+import br.univel.model.Cliente;
+import br.univel.model.ClienteDaoImpl;
 
 public class TelaCadastroUsuario extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
 	private JPasswordField passwordField;
+	private JComboBox cmbCliente;
+	private static TelaCadastroUsuario instacia;
 
 	/**
 	 * Launch the application.
@@ -32,6 +43,20 @@ public class TelaCadastroUsuario extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
+	public static TelaCadastroUsuario getInstacia(){
+		if(instacia == null)
+			instacia = new TelaCadastroUsuario();
+		return instacia;
+	}
+	
+	public void carregarCmb(){
+		ClienteDaoImpl cdi = new ClienteDaoImpl();
+		List<Cliente> lista = new ArrayList<Cliente>();
+		lista = cdi.lista();
+		System.out.println(lista.get(0).getNome());
+		
+	}
 
 	/**
 	 * Create the dialog.
@@ -42,7 +67,7 @@ public class TelaCadastroUsuario extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 49, 42, 70, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 151, 49, 42, 70, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -57,19 +82,18 @@ public class TelaCadastroUsuario extends JDialog {
 			contentPanel.add(lblUsuario, gbc_lblUsuario);
 		}
 		{
-			textField = new JTextField();
-			GridBagConstraints gbc_textField = new GridBagConstraints();
-			gbc_textField.gridwidth = 4;
-			gbc_textField.insets = new Insets(0, 0, 5, 5);
-			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField.gridx = 1;
-			gbc_textField.gridy = 2;
-			contentPanel.add(textField, gbc_textField);
-			textField.setColumns(10);
+			cmbCliente = new JComboBox();
+			GridBagConstraints gbc_cmbCliente = new GridBagConstraints();
+			gbc_cmbCliente.insets = new Insets(0, 0, 5, 5);
+			gbc_cmbCliente.fill = GridBagConstraints.HORIZONTAL;
+			gbc_cmbCliente.gridx = 1;
+			gbc_cmbCliente.gridy = 2;
+			contentPanel.add(cmbCliente, gbc_cmbCliente);
 		}
 		{
 			JLabel lblSenha = new JLabel("Senha");
 			GridBagConstraints gbc_lblSenha = new GridBagConstraints();
+			gbc_lblSenha.anchor = GridBagConstraints.WEST;
 			gbc_lblSenha.insets = new Insets(0, 0, 5, 5);
 			gbc_lblSenha.gridx = 1;
 			gbc_lblSenha.gridy = 3;
@@ -78,7 +102,6 @@ public class TelaCadastroUsuario extends JDialog {
 		{
 			passwordField = new JPasswordField();
 			GridBagConstraints gbc_passwordField = new GridBagConstraints();
-			gbc_passwordField.gridwidth = 4;
 			gbc_passwordField.insets = new Insets(0, 0, 0, 5);
 			gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_passwordField.gridx = 1;
@@ -101,6 +124,7 @@ public class TelaCadastroUsuario extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		carregarCmb();
 	}
 
 }

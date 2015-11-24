@@ -3,7 +3,9 @@ package br.univel.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDaoImpl implements ClienteDao {
@@ -19,12 +21,12 @@ public class ClienteDaoImpl implements ClienteDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String sql = "INSERT INTO Cliente (id, nome, telefone, endereco, cidade, email, estado, genero) VALUES (1, '"+c.getNome()+"', '"+c.getTelefone()+"', "
+		String sql = "INSERT INTO \"Cliente\" (id, nome, telefone, endereco, cidade, email, estado, genero) VALUES ("+c.getId()+", '"+c.getNome()+"', '"+c.getTelefone()+"', "
 				+ "'"+c.getEndereco() +"', '"+c.getCidade()+"', '"+c.getEmail()+"', '"+c.getEstado()+"', '"+c.getGenero()+"');";
-		String sql2 = "INSERT INTO public.Cliente (id, nome) VALUES (40,'teste');";
 		try {
-			PreparedStatement ps = Conexao.getConnection().prepareStatement(sql2);
-			ps.executeQuery();
+			PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,7 +56,27 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	@Override
 	public List<Cliente> lista() {
-		// TODO Auto-generated method stub
+		List<Cliente> list = new ArrayList<Cliente>();
+		String sql = "select * from \"Cliente\" ";
+		try {
+			PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Cliente c = new Cliente();
+				c.setId(rs.getInt("id"));
+				c.setNome(rs.getString("nome")); 
+				c.setEmail(rs.getString("email"));
+				c.setTelefone(rs.getString("telefone"));
+				c.setCidade(rs.getString("cidade"));
+				c.setEndereco(rs.getString("endereco"));
+			    list.add(c);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
