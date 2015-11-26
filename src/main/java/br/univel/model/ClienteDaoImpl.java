@@ -6,21 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ClienteDaoImpl implements ClienteDao {
 	
-	private static Connection con;
 
 	@Override
 	public void inserir(Cliente c) {
-		try {
-			 con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/TrabalhoJava4Bi", "postgres",
-			        "univel");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		String sql = "INSERT INTO \"Cliente\" (id, nome, telefone, endereco, cidade, email, estado, genero) VALUES ("+c.getId()+", '"+c.getNome()+"', '"+c.getTelefone()+"', "
 				+ "'"+c.getEndereco() +"', '"+c.getCidade()+"', '"+c.getEmail()+"', '"+c.getEstado()+"', '"+c.getGenero()+"');";
 		try {
@@ -65,19 +58,22 @@ public class ClienteDaoImpl implements ClienteDao {
 			while(rs.next()) {
 				Cliente c = new Cliente();
 				c.setId(rs.getInt("id"));
+				System.out.println(rs.getInt("id"));
 				c.setNome(rs.getString("nome")); 
 				c.setEmail(rs.getString("email"));
 				c.setTelefone(rs.getString("telefone"));
 				c.setCidade(rs.getString("cidade"));
 				c.setEndereco(rs.getString("endereco"));
 			    list.add(c);
+			    
 			}
+		System.out.println(list.get(0).getId());
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return list;
 	}
 
 }

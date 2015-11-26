@@ -1,12 +1,24 @@
 package br.univel.model;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 
 public class UsuarioDaoImpl implements UsuarioDao{
 
 	@Override
 	public void inserir(Usuario c) {
-		// TODO Auto-generated method stub
+		
+		try {
+			String sql = "INSERT INTO \"Usuario\"(id_cliente, senha) VALUES ("+c.getId_cliente()+", "+c.getSenha()+");";
+			PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
+			ps.executeQuery();
+			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 

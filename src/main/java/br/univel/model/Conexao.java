@@ -9,7 +9,7 @@ private static Connection con;
 	
 	public static Connection getConnection() {
 		
-		
+		if(con == null){
 				try {
 					con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/TrabalhoJava4Bi", "postgres",
 					        "univel");
@@ -17,7 +17,11 @@ private static Connection con;
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			return con;
+				return con;
+	}else{
+		return con;
+	}
+			
 		
 	}
 }

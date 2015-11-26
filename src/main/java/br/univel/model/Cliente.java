@@ -59,6 +59,13 @@ public class Cliente {
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getNome();
+	}
+	
+	
 	
 	
 

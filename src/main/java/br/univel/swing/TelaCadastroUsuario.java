@@ -23,13 +23,19 @@ import javax.swing.JComboBox;
 
 import br.univel.model.Cliente;
 import br.univel.model.ClienteDaoImpl;
+import br.univel.model.Usuario;
+import br.univel.model.UsuarioDaoImpl;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaCadastroUsuario extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JPasswordField passwordField;
+	private JPasswordField txt_senha;
 	private JComboBox cmbCliente;
 	private static TelaCadastroUsuario instacia;
+	private JTextField txt_usuario;
 
 	/**
 	 * Launch the application.
@@ -52,17 +58,19 @@ public class TelaCadastroUsuario extends JDialog {
 	
 	public void carregarCmb(){
 		ClienteDaoImpl cdi = new ClienteDaoImpl();
-		List<Cliente> lista = new ArrayList<Cliente>();
-		lista = cdi.lista();
-		System.out.println(lista.get(0).getNome());
+		List<Cliente> lista = cdi.lista();
+		for (int i = 0; i < lista.size(); i++) {
+			Cliente c = lista.get(i);
+			cmbCliente.addItem(c);
+		}
+
 		
 	}
-
 	/**
 	 * Create the dialog.
 	 */
 	public TelaCadastroUsuario() {
-		setBounds(100, 100, 450, 217);
+		setBounds(100, 100, 454, 227);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -82,11 +90,31 @@ public class TelaCadastroUsuario extends JDialog {
 			contentPanel.add(lblUsuario, gbc_lblUsuario);
 		}
 		{
+			JLabel lblCliente = new JLabel("Cliente");
+			GridBagConstraints gbc_lblCliente = new GridBagConstraints();
+			gbc_lblCliente.anchor = GridBagConstraints.WEST;
+			gbc_lblCliente.insets = new Insets(0, 0, 5, 0);
+			gbc_lblCliente.gridx = 4;
+			gbc_lblCliente.gridy = 1;
+			contentPanel.add(lblCliente, gbc_lblCliente);
+		}
+		{
+			txt_usuario = new JTextField();
+			GridBagConstraints gbc_txt_usuario = new GridBagConstraints();
+			gbc_txt_usuario.insets = new Insets(0, 0, 5, 5);
+			gbc_txt_usuario.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txt_usuario.gridx = 1;
+			gbc_txt_usuario.gridy = 2;
+			contentPanel.add(txt_usuario, gbc_txt_usuario);
+			txt_usuario.setColumns(10);
+		}
+		{
 			cmbCliente = new JComboBox();
 			GridBagConstraints gbc_cmbCliente = new GridBagConstraints();
-			gbc_cmbCliente.insets = new Insets(0, 0, 5, 5);
+			gbc_cmbCliente.gridwidth = 2;
+			gbc_cmbCliente.insets = new Insets(0, 0, 5, 0);
 			gbc_cmbCliente.fill = GridBagConstraints.HORIZONTAL;
-			gbc_cmbCliente.gridx = 1;
+			gbc_cmbCliente.gridx = 4;
 			gbc_cmbCliente.gridy = 2;
 			contentPanel.add(cmbCliente, gbc_cmbCliente);
 		}
@@ -100,13 +128,13 @@ public class TelaCadastroUsuario extends JDialog {
 			contentPanel.add(lblSenha, gbc_lblSenha);
 		}
 		{
-			passwordField = new JPasswordField();
-			GridBagConstraints gbc_passwordField = new GridBagConstraints();
-			gbc_passwordField.insets = new Insets(0, 0, 0, 5);
-			gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_passwordField.gridx = 1;
-			gbc_passwordField.gridy = 4;
-			contentPanel.add(passwordField, gbc_passwordField);
+			txt_senha = new JPasswordField();
+			GridBagConstraints gbc_txt_senha = new GridBagConstraints();
+			gbc_txt_senha.insets = new Insets(0, 0, 0, 5);
+			gbc_txt_senha.fill = GridBagConstraints.HORIZONTAL;
+			gbc_txt_senha.gridx = 1;
+			gbc_txt_senha.gridy = 4;
+			contentPanel.add(txt_senha, gbc_txt_senha);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -114,6 +142,11 @@ public class TelaCadastroUsuario extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						salvar();
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -125,6 +158,18 @@ public class TelaCadastroUsuario extends JDialog {
 			}
 		}
 		carregarCmb();
+	}
+
+	protected void salvar() {
+		Usuario user = new Usuario();
+		Cliente c = (Cliente) cmbCliente.getSelectedItem();
+		user.setId_cliente(c.getId());
+		user.setSenha(new String(txt_senha.getPassword()));
+		
+		UsuarioDaoImpl userdi = new UsuarioDaoImpl();
+		userdi.inserir(user);
+
+		
 	}
 
 }
