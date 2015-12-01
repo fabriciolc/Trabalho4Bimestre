@@ -7,17 +7,36 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JComboBox;
+
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JList;
+
+
+
+import br.univel.model.*;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaCadastroPedido extends JDialog {
 	private static TelaCadastroPedido instancia; 
 
 	private final JPanel contentPanel = new JPanel();
+	private JList list_produtos;
+	private JList list_produtosp;
+	private static ArrayList<Produto> listProduto = new ArrayList<Produto>();
+	private JComboBox cmbCliente;
 
 	/**
 	 * Launch the application.
@@ -38,12 +57,31 @@ public class TelaCadastroPedido extends JDialog {
 		return instancia;
 		
 	}
-	
+	private void carregarList(){
+		ProdutoDaoImpl pdi = new ProdutoDaoImpl();
+		List<Produto> lista = pdi.lista();
+		for (int i = 0; i < lista.size(); i++) {
+			Produto c = lista.get(i);
+			listProduto.add(c);
+		}
+	}
+	public void carregarCmb(){
+		ClienteDaoImpl cdi = new ClienteDaoImpl();
+		List<Cliente> lista = cdi.lista();
+		for (int i = 0; i < lista.size(); i++) {
+			Cliente c = lista.get(i);
+			cmbCliente.addItem(c);
+		}
+
+		
+	}
 
 	/**
 	 * Create the dialog.
 	 */
 	public TelaCadastroPedido() {
+		carregarList();
+		
 		setBounds(100, 100, 457, 312);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,13 +102,13 @@ public class TelaCadastroPedido extends JDialog {
 			contentPanel.add(lblCliente, gbc_lblCliente);
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			GridBagConstraints gbc_comboBox = new GridBagConstraints();
-			gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-			gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-			gbc_comboBox.gridx = 2;
-			gbc_comboBox.gridy = 0;
-			contentPanel.add(comboBox, gbc_comboBox);
+			cmbCliente = new JComboBox();
+			GridBagConstraints gbc_cmbCliente = new GridBagConstraints();
+			gbc_cmbCliente.insets = new Insets(0, 0, 5, 5);
+			gbc_cmbCliente.fill = GridBagConstraints.HORIZONTAL;
+			gbc_cmbCliente.gridx = 2;
+			gbc_cmbCliente.gridy = 0;
+			contentPanel.add(cmbCliente, gbc_cmbCliente);
 		}
 		{
 			JLabel lblProdut = new JLabel("Produtos");
@@ -82,7 +120,7 @@ public class TelaCadastroPedido extends JDialog {
 			contentPanel.add(lblProdut, gbc_lblProdut);
 		}
 		{
-			JList list_produtos = new JList();
+			list_produtos = new JList(listProduto.toArray());
 			GridBagConstraints gbc_list_produtos = new GridBagConstraints();
 			gbc_list_produtos.gridheight = 4;
 			gbc_list_produtos.insets = new Insets(0, 0, 5, 5);
@@ -101,7 +139,7 @@ public class TelaCadastroPedido extends JDialog {
 			contentPanel.add(btn_addall, gbc_btn_addall);
 		}
 		{
-			JList list_produtosp = new JList();
+			list_produtosp = new JList();
 			GridBagConstraints gbc_list_produtosp = new GridBagConstraints();
 			gbc_list_produtosp.gridheight = 4;
 			gbc_list_produtosp.insets = new Insets(0, 0, 5, 5);
@@ -161,6 +199,13 @@ public class TelaCadastroPedido extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Produto teste = new Produto();
+						teste = (Produto)list_produtos.getSelectedValue();
+						System.out.println(teste.getId());
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -171,6 +216,7 @@ public class TelaCadastroPedido extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		carregarCmb();
 	}
 
 }

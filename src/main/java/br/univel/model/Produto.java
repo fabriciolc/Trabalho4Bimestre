@@ -55,6 +55,12 @@ public class Produto {
 	public void setPrecovenda(BigDecimal precovenda) {
 		this.precovenda = precovenda;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return descricao;
+	}
+	
 	
 	
 	

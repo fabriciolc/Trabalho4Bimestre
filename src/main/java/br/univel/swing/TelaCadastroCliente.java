@@ -21,6 +21,8 @@ import javax.swing.JComboBox;
 
 import br.univel.model.Cliente;
 import br.univel.model.ClienteDaoImpl;
+import br.univel.model.Estado;
+import br.univel.model.Genero;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -55,6 +57,15 @@ public class TelaCadastroCliente extends JDialog {
 		if(instacia == null)
 			instacia = new TelaCadastroCliente();
 		return instacia;
+	}
+	private void carregarCmb(){
+	for(Estado es : Estado.values()){
+		cmb_estado.addItem(es);
+	}
+	for(Genero gr : Genero.values()){
+		cmb_Genero.addItem(gr);
+	}
+		
 	}
 
 	/**
@@ -239,6 +250,8 @@ public class TelaCadastroCliente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		carregarCmb();
 	}
 
 	protected void salvar() {
@@ -248,11 +261,9 @@ public class TelaCadastroCliente extends JDialog {
 		c.setTelefone(text_telefone.getText());
 		c.setCidade(text_cidade.getText());
 		c.setEndereco(text_cidade.getText());
-//		c.setEstado(cmb_estado.getSelectedItem().toString());
-//		c.setGenero(cmb_Genero.getSelectedItem().toString());
-		c.setEstado("Estado");
-		c.setGenero("Genero");
-		
+		c.setEstado(cmb_estado.getSelectedItem().toString());
+		c.setGenero(cmb_Genero.getSelectedItem().toString());
+
 		ClienteDaoImpl cdi = new ClienteDaoImpl();
 		cdi.inserir(c);
 		

@@ -58,7 +58,6 @@ public class ClienteDaoImpl implements ClienteDao {
 			while(rs.next()) {
 				Cliente c = new Cliente();
 				c.setId(rs.getInt("id"));
-				System.out.println(rs.getInt("id"));
 				c.setNome(rs.getString("nome")); 
 				c.setEmail(rs.getString("email"));
 				c.setTelefone(rs.getString("telefone"));
@@ -67,7 +66,6 @@ public class ClienteDaoImpl implements ClienteDao {
 			    list.add(c);
 			    
 			}
-		System.out.println(list.get(0).getId());
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
