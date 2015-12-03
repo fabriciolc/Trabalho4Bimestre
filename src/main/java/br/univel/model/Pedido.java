@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class Pedido {
 
 	private Cliente cliente;
-	private Pedido produto;
+	private Produto produto;
 	private BigDecimal preco;
 	private int qnt;
 
@@ -15,11 +15,11 @@ public class Pedido {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	public Pedido getProduto() {
+	public Produto getProduto() {
 		return produto;
 	}
-	public void setProduto(Pedido produto) {
-		this.produto = produto;
+	public void setProduto(Produto p) {
+		this.produto = p;
 	}
 	public BigDecimal getPreco() {
 		return preco;
@@ -32,6 +32,12 @@ public class Pedido {
 	}
 	public void setQnt(int qnt) {
 		this.qnt = qnt;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Cliente: "+getCliente().getId() +" Produto: "+ getProduto().getId() + " Preço: "+getPreco();
 	}
 	
 	

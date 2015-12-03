@@ -20,6 +20,7 @@ import java.awt.GridBagConstraints;
 import javax.swing.JComboBox;
 
 import java.awt.Insets;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,22 +31,28 @@ import javax.swing.JList;
 
 
 
+
 import br.univel.model.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
 
 public class TelaCadastroPedido extends JDialog {
 	private static TelaCadastroPedido instancia; 
 
 	private final JPanel contentPanel = new JPanel();
+
 	private static ArrayList<Produto> listProduto = new ArrayList<Produto>();
 	private static ArrayList<Produto> listProdutop = new ArrayList<Produto>();
+	private static DefaultListModel<Pedido> modelList = new DefaultListModel<Pedido>();
 	private JComboBox cmbCliente;
 	private JTextField txt_qnt;
 	private JComboBox cmbProduto;
 	private JList listPedido;
+	private JLabel lb_preço;
 
 	/**
 	 * Launch the application.
@@ -107,8 +114,8 @@ public class TelaCadastroPedido extends JDialog {
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
 		gbl_contentPanel.columnWidths = new int[]{0, 55, 154, 29, 51, 0, 56, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 10, 36, 0, 39, 35, 14, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.rowWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			JLabel lblCliente = new JLabel("Cliente");
@@ -189,15 +196,20 @@ public class TelaCadastroPedido extends JDialog {
 			contentPanel.add(lblListaDoPedido, gbc_lblListaDoPedido);
 		}
 		{
-			listPedido = new JList();
-			GridBagConstraints gbc_listPedido = new GridBagConstraints();
-			gbc_listPedido.gridwidth = 7;
-			gbc_listPedido.gridheight = 3;
-			gbc_listPedido.insets = new Insets(0, 0, 5, 5);
-			gbc_listPedido.fill = GridBagConstraints.BOTH;
-			gbc_listPedido.gridx = 1;
-			gbc_listPedido.gridy = 4;
-			contentPanel.add(listPedido, gbc_listPedido);
+			JScrollPane scrollPane = new JScrollPane();
+			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+			gbc_scrollPane.gridwidth = 5;
+			gbc_scrollPane.gridheight = 3;
+			gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+			gbc_scrollPane.fill = GridBagConstraints.BOTH;
+			gbc_scrollPane.gridx = 2;
+			gbc_scrollPane.gridy = 4;
+			contentPanel.add(scrollPane, gbc_scrollPane);
+			{
+				listPedido = new JList();
+				scrollPane.setViewportView(listPedido);
+				listPedido.setVisibleRowCount(1);
+			}
 		}
 		{
 			JLabel lblPreoo = new JLabel("Total: ");
@@ -209,7 +221,7 @@ public class TelaCadastroPedido extends JDialog {
 			contentPanel.add(lblPreoo, gbc_lblPreoo);
 		}
 		{
-			JLabel lb_preço = new JLabel("R$ 0,00");
+			lb_preço = new JLabel("R$ 0,00");
 			GridBagConstraints gbc_lb_preço = new GridBagConstraints();
 			gbc_lb_preço.insets = new Insets(0, 0, 0, 5);
 			gbc_lb_preço.anchor = GridBagConstraints.WEST;
@@ -243,9 +255,38 @@ public class TelaCadastroPedido extends JDialog {
 
 	protected void adicionar() {
 		
+		Cliente c = (Cliente)cmbCliente.getSelectedItem();
+		Produto p = (Produto)cmbProduto.getSelectedItem();
+		
+		Pedido pe = new Pedido();
+		pe.setCliente(c);
+		pe.setProduto(p);
+		pe.setQnt(Integer.parseInt(txt_qnt.getText()));
+		BigDecimal qnt = new BigDecimal(pe.getQnt());
+		pe.setPreco(p.getPrecovenda().multiply(qnt));
 		
 		
 		
+		
+		modelList.addElement(pe);
+		listPedido.setModel(modelList);
+		
+		atualizartotal();
+				
+		
+	}
+
+	private void atualizartotal() {
+		double soma = 0;
+		for (int i = 0; i < modelList.size(); i++) {
+			Pedido p = modelList.getElementAt(i);
+			soma += p.getPreco().setScale(3).doubleValue();
+	
+			
+		}
+		
+		
+		lb_preço.setText("R$"+String.valueOf(soma));
 		
 	}
 
