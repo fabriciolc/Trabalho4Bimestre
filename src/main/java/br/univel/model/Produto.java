@@ -58,8 +58,9 @@ public class Produto {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return descricao;
+		return getDescricao();
 	}
+	
 	
 	
 	
