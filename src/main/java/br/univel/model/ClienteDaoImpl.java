@@ -14,8 +14,9 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	@Override
 	public void inserir(Cliente c) {
-		String sql = "INSERT INTO \"Cliente\" (id, nome, telefone, endereco, cidade, email, estado, genero) VALUES ("+c.getId()+", '"+c.getNome()+"', '"+c.getTelefone()+"', "
+		String sql = "INSERT INTO \"Cliente\" (nome, telefone, endereco, cidade, email, estado, genero) VALUES ("+c.getNome()+"', '"+c.getTelefone()+"', "
 				+ "'"+c.getEndereco() +"', '"+c.getCidade()+"', '"+c.getEmail()+"', '"+c.getEstado()+"', '"+c.getGenero()+"');";
+		System.out.println(c.getEstado()+" "+c.getGenero());
 		try {
 			PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -63,6 +64,8 @@ public class ClienteDaoImpl implements ClienteDao {
 				c.setTelefone(rs.getString("telefone"));
 				c.setCidade(rs.getString("cidade"));
 				c.setEndereco(rs.getString("endereco"));
+				c.setEstado(rs.getString("estado"));
+				c.setGenero(rs.getString("genero"));
 			    list.add(c);
 			    
 			}

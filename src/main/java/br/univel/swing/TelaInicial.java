@@ -65,6 +65,11 @@ public class TelaInicial extends JFrame {
 		mnMenu.add(mnNewMenu);
 		
 		JMenuItem mntmCadastrarCliente = new JMenuItem("Cadastrar Cliente");
+		mntmCadastrarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaCadastroCliente.getInstacia().setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmCadastrarCliente);
 		
 		JMenuItem mntmListaDeCliente = new JMenuItem("Lista de Cliente");

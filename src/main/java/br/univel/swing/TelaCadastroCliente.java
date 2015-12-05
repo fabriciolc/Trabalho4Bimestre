@@ -17,6 +17,7 @@ import java.awt.Insets;
 
 import javax.swing.JTextField;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 
 import br.univel.model.Cliente;
@@ -233,7 +234,7 @@ public class TelaCadastroCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Salvar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
@@ -266,6 +267,19 @@ public class TelaCadastroCliente extends JDialog {
 
 		ClienteDaoImpl cdi = new ClienteDaoImpl();
 		cdi.inserir(c);
+
+		limpar();
+		JOptionPane.showMessageDialog(null, "Salvo com Sucesso");
+	}
+
+	private void limpar() {
+		text_nome.setText("");
+		text_cidade.setText("");
+		text_email.setText("");
+		text_endereco.setText("");
+		text_telefone.setText("");
+		
+		
 		
 	}
 

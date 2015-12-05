@@ -180,8 +180,9 @@ public class TelaCadastroPedido extends JDialog {
 				}
 			});
 			GridBagConstraints gbc_btnAdicionar = new GridBagConstraints();
+			gbc_btnAdicionar.gridwidth = 2;
 			gbc_btnAdicionar.insets = new Insets(0, 0, 5, 5);
-			gbc_btnAdicionar.gridx = 6;
+			gbc_btnAdicionar.gridx = 5;
 			gbc_btnAdicionar.gridy = 2;
 			contentPanel.add(btnAdicionar, gbc_btnAdicionar);
 		}
@@ -198,11 +199,11 @@ public class TelaCadastroPedido extends JDialog {
 		{
 			JScrollPane scrollPane = new JScrollPane();
 			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-			gbc_scrollPane.gridwidth = 5;
+			gbc_scrollPane.gridwidth = 6;
 			gbc_scrollPane.gridheight = 3;
 			gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 			gbc_scrollPane.fill = GridBagConstraints.BOTH;
-			gbc_scrollPane.gridx = 2;
+			gbc_scrollPane.gridx = 1;
 			gbc_scrollPane.gridy = 4;
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
@@ -234,10 +235,10 @@ public class TelaCadastroPedido extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Salvar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-					
+						salvar();
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -245,12 +246,17 @@ public class TelaCadastroPedido extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
 		carregarCmb();
+	}
+
+	protected void salvar() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected void adicionar() {

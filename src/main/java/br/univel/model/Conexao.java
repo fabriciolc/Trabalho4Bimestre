@@ -11,8 +11,8 @@ private static Connection con;
 		
 		if(con == null){
 				try {
-					con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/TrabalhoJava4Bi", "postgres",
-					        "univel");
+					con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+					        "UNIVEL");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
