@@ -9,7 +9,6 @@ public class Produto {
 	private String descricao;
 	private String categoria;
 	private BigDecimal custo;
-	private BigDecimal lucro;
 	private BigDecimal precovenda;
 	
 	public int getId() {
@@ -42,12 +41,6 @@ public class Produto {
 	}
 	public void setCusto(BigDecimal custo) {
 		this.custo = custo;
-	}
-	public BigDecimal getLucro() {
-		return lucro;
-	}
-	public void setLucro(BigDecimal lucro) {
-		this.lucro = lucro;
 	}
 	public BigDecimal getPrecovenda() {
 		return precovenda;

@@ -25,12 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JList;
-
-
-
-
-
-
+import javax.swing.JOptionPane;
 
 import br.univel.model.*;
 
@@ -241,6 +236,15 @@ public class TelaCadastroPedido extends JDialog {
 						salvar();
 					}
 				});
+				{
+					JButton btnExcluir = new JButton("Excluir");
+					btnExcluir.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							excluir();
+						}
+					});
+					buttonPane.add(btnExcluir);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -254,30 +258,70 @@ public class TelaCadastroPedido extends JDialog {
 		carregarCmb();
 	}
 
+	protected void excluir() {
+		try {	
+			modelList.remove(listPedido.getSelectedIndex());
+			listPedido.setModel(modelList);
+			atualizartotal();
+			
+		} catch(ArrayIndexOutOfBoundsException e){
+			JOptionPane.showMessageDialog(null, "Selecione algum produto da lista, para excluir");
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+	
+	}
+
 	protected void salvar() {
-		// TODO Auto-generated method stub
+		PedidoDaoImpl pdi = new PedidoDaoImpl();
+		
+		int id = 0;
+		id = pdi.ultimoID()+ 1;
+	
+		for (int i = 0; i < modelList.size(); i++) {
+			Pedido p = new Pedido();
+			p.setId(id);
+			p.setCliente(modelList.getElementAt(i).getCliente());
+			p.setPreco(modelList.getElementAt(i).getPreco());
+			p.setProduto(modelList.getElementAt(i).getProduto());
+			p.setQnt(modelList.getElementAt(i).getQnt());
+			
+			pdi.inserir(p);
+		}
+		modelList.clear();
+		listPedido.setModel(modelList);
+		JOptionPane.showMessageDialog(null, "Salvo com Sucesso");
+			
 		
 	}
 
 	protected void adicionar() {
 		
-		Cliente c = (Cliente)cmbCliente.getSelectedItem();
-		Produto p = (Produto)cmbProduto.getSelectedItem();
+		if(txt_qnt.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "Porfavor não deixar a Quantidade vazio");
+			
+		}else{
+			Cliente c = (Cliente)cmbCliente.getSelectedItem();
+			Produto p = (Produto)cmbProduto.getSelectedItem();
+			
+			Pedido pe = new Pedido();
+			pe.setCliente(c);
+			pe.setProduto(p);
+			pe.setQnt(Integer.parseInt(txt_qnt.getText()));
+			BigDecimal qnt = new BigDecimal(pe.getQnt());
+			pe.setPreco(p.getPrecovenda().multiply(qnt));
+			
+			
+			
+			
+			modelList.addElement(pe);
+			listPedido.setModel(modelList);
+			
+			atualizartotal();
+		}
 		
-		Pedido pe = new Pedido();
-		pe.setCliente(c);
-		pe.setProduto(p);
-		pe.setQnt(Integer.parseInt(txt_qnt.getText()));
-		BigDecimal qnt = new BigDecimal(pe.getQnt());
-		pe.setPreco(p.getPrecovenda().multiply(qnt));
 		
-		
-		
-		
-		modelList.addElement(pe);
-		listPedido.setModel(modelList);
-		
-		atualizartotal();
 				
 		
 	}

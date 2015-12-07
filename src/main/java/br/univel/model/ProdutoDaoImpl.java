@@ -10,8 +10,20 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
 	@Override
 	public void inserir(Produto c) {
-		// TODO Auto-generated method stub
-		
+		String sql = "INSERT INTO \"Produto\" (barcode, descricao, categoria, custo, precovenda)VALUES ("+c.getBarcode()+", '"+c.getDescricao()+"', '"+c.getCategoria()+"', "+c.getCusto()+", "+c.getPrecovenda()+");";
+		try {
+			try {
+				PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
+				ResultSet rs = ps.executeQuery();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	@Override
@@ -22,7 +34,20 @@ public class ProdutoDaoImpl implements ProdutoDao {
 
 	@Override
 	public void excluir(Produto c) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM \"Produto\" WHERE id = "+c.getId()+";";
+		try {
+			try {
+				PreparedStatement ps = Conexao.getConnection().prepareStatement(sql);
+				ResultSet rs = ps.executeQuery();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 	}
 
@@ -47,7 +72,6 @@ public class ProdutoDaoImpl implements ProdutoDao {
 				p.setDescricao(rs.getString("descricao")); 
 				p.setCategoria(rs.getString("categoria"));
 				p.setCusto(rs.getBigDecimal("custo"));
-				p.setLucro(rs.getBigDecimal("lucro"));
 				p.setPrecovenda(rs.getBigDecimal("precovenda"));
 			    list.add(p);
 			    

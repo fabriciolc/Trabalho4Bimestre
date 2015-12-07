@@ -3,22 +3,36 @@ package br.univel.swing;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import br.univel.model.Categoria;
+import br.univel.model.CategoriaDaoImpl;
+import br.univel.model.Pedido;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import java.awt.Insets;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
 
 public class TelaCadastroCategoria extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
+	private JTextField text_categoria;
+	private static DefaultListModel<Categoria> modelList = new DefaultListModel<Categoria>();
+	private List<Categoria> lista = new ArrayList<Categoria>();
 
 	/**
 	 * Launch the application.
@@ -32,12 +46,20 @@ public class TelaCadastroCategoria extends JDialog {
 			e.printStackTrace();
 		}
 	}
-
+	private void carregarList(){
+		CategoriaDaoImpl cdi = new CategoriaDaoImpl();
+		for (int i = 0; i < cdi.lista().size(); i++) {
+			Categoria c = new Categoria();
+			c.setCategoria(cdi.lista().get(i).getCategoria());
+			modelList.addElement(c);
+		}
+	}
 	/**
 	 * Create the dialog.
 	 */
 	public TelaCadastroCategoria() {
-		setBounds(100, 100, 450, 260);
+		carregarList();
+		setBounds(100, 100, 450, 270);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.NORTH);
@@ -67,78 +89,47 @@ public class TelaCadastroCategoria extends JDialog {
 			contentPanel.add(lblCategoria, gbc_lblCategoria);
 		}
 		{
-			JLabel lblNewLabel = new JLabel("Lista Categoria");
-			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-			gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-			gbc_lblNewLabel.gridwidth = 2;
-			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-			gbc_lblNewLabel.gridx = 3;
-			gbc_lblNewLabel.gridy = 1;
-			contentPanel.add(lblNewLabel, gbc_lblNewLabel);
-		}
-		{
-			textField = new JTextField();
-			GridBagConstraints gbc_textField = new GridBagConstraints();
-			gbc_textField.insets = new Insets(0, 0, 5, 5);
-			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField.gridx = 1;
-			gbc_textField.gridy = 2;
-			contentPanel.add(textField, gbc_textField);
-			textField.setColumns(10);
-		}
-		{
-			JButton btnInserir = new JButton("Inserir");
-			GridBagConstraints gbc_btnInserir = new GridBagConstraints();
-			gbc_btnInserir.insets = new Insets(0, 0, 5, 5);
-			gbc_btnInserir.gridx = 2;
-			gbc_btnInserir.gridy = 2;
-			contentPanel.add(btnInserir, gbc_btnInserir);
-		}
-		{
-			JList list = new JList();
-			GridBagConstraints gbc_list = new GridBagConstraints();
-			gbc_list.gridheight = 5;
-			gbc_list.gridwidth = 2;
-			gbc_list.fill = GridBagConstraints.BOTH;
-			gbc_list.gridx = 3;
-			gbc_list.gridy = 2;
-			contentPanel.add(list, gbc_list);
-		}
-		{
-			JButton btnExcluir = new JButton("Excluir");
-			GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
-			gbc_btnExcluir.insets = new Insets(0, 0, 5, 5);
-			gbc_btnExcluir.gridx = 2;
-			gbc_btnExcluir.gridy = 3;
-			contentPanel.add(btnExcluir, gbc_btnExcluir);
-		}
-		{
-			JButton btnNewButton = new JButton("Editar");
-			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-			gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-			gbc_btnNewButton.gridx = 2;
-			gbc_btnNewButton.gridy = 5;
-			contentPanel.add(btnNewButton, gbc_btnNewButton);
-		}
-		{
-			JButton btnNewButton_1 = new JButton("Salvar");
-			btnNewButton_1.setEnabled(false);
-			GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-			gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-			gbc_btnNewButton_1.gridx = 2;
-			gbc_btnNewButton_1.gridy = 6;
-			contentPanel.add(btnNewButton_1, gbc_btnNewButton_1);
+			text_categoria = new JTextField();
+			GridBagConstraints gbc_text_categoria = new GridBagConstraints();
+			gbc_text_categoria.insets = new Insets(0, 0, 5, 5);
+			gbc_text_categoria.fill = GridBagConstraints.HORIZONTAL;
+			gbc_text_categoria.gridx = 1;
+			gbc_text_categoria.gridy = 2;
+			contentPanel.add(text_categoria, gbc_text_categoria);
+			text_categoria.setColumns(10);
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
+				JButton btnInserir = new JButton("Salvar");
+				buttonPane.add(btnInserir);
+				btnInserir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						salvar();
+					}
+				});
+			}
+			{
 				JButton cancelButton = new JButton("Sair");
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void salvar() {
+		CategoriaDaoImpl cdi = new CategoriaDaoImpl();
+		Categoria c = new Categoria();
+		c.setCategoria(text_categoria.getText());
+		
+		cdi.inserir(c);
+		text_categoria.setText("");
+		JOptionPane.showMessageDialog(null, "Salvo com sucesso");
+		
+		
+		
 	}
 
 }

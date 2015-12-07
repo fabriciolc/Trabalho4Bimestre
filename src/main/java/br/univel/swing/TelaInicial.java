@@ -53,12 +53,20 @@ public class TelaInicial extends JFrame {
 		mntmNovoPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				TelaCadastroPedido.getInstacia().setVisible(true);
+				
 				
 			}
 		});
 		mnPedidos.add(mntmNovoPedido);
 		
 		JMenuItem mntmListaDePedidos = new JMenuItem("Lista de Pedidos");
+		mntmListaDePedidos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaListaPedidos tlp = new TelaListaPedidos();
+				tlp.setVisible(true);
+			}
+		});
 		mnPedidos.add(mntmListaDePedidos);
 		
 		JMenu mnNewMenu = new JMenu("Cliente");
@@ -73,24 +81,42 @@ public class TelaInicial extends JFrame {
 		mnNewMenu.add(mntmCadastrarCliente);
 		
 		JMenuItem mntmListaDeCliente = new JMenuItem("Lista de Cliente");
+		mntmListaDeCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaListaCliente.getInstancia().setVisible(true);
+			}
+		});
 		mnNewMenu.add(mntmListaDeCliente);
 		
 		JMenu mnProduto = new JMenu("Produto");
 		mnMenu.add(mnProduto);
 		
 		JMenuItem mntmCadastrarProduto = new JMenuItem("Cadastrar Produto");
+		mntmCadastrarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaCadastroProduto.getInstancia().setVisible(true);
+			}
+		});
 		mnProduto.add(mntmCadastrarProduto);
 		
 		JMenuItem mntmListaDeProdutos = new JMenuItem("Lista de Produtos");
+		mntmListaDeProdutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TelaListaProduto tlp = new TelaListaProduto();
+				tlp.setVisible(true);
+			}
+		});
 		mnProduto.add(mntmListaDeProdutos);
-		
-		JMenuItem mntmBloquearTela = new JMenuItem("Bloquear Tela");
-		mnMenu.add(mntmBloquearTela);
 		
 		JMenu mnUsuario = new JMenu("Usuario");
 		menuBar.add(mnUsuario);
 		
 		JMenuItem mntmCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
+		mntmCadastrarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TelaCadastroUsuario.getInstacia().setVisible(true);
+			}
+		});
 		mnUsuario.add(mntmCadastrarUsuario);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

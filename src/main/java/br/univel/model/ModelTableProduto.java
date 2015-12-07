@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public class ModelTableCliente extends AbstractTableModel{
-	ClienteDaoImpl cdi = new ClienteDaoImpl();
-	List<Cliente> lista = cdi.lista();
-	Object[] columnNames = {"ID","Nome","Email","Endereço","Estado","Cidade","Telefone","Genero"};
+public class ModelTableProduto extends AbstractTableModel {
+	ProdutoDaoImpl pdi = new ProdutoDaoImpl();
+	List<Produto> lista = pdi.lista();
+	Object[] columnNames = {"Id","Barcode","Descrição","Categoria","Custo","Preço Venda"};
 
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 8;
+		return 6;
 	}
 
 	@Override
@@ -23,33 +23,27 @@ public class ModelTableCliente extends AbstractTableModel{
 
 	@Override
 	public Object getValueAt(int row, int col) {
-
 		switch (col) {
 		case 0:
 			return lista.get(row).getId();
 		case 1:
-			return lista.get(row).getNome();
+			return lista.get(row).getBarcode();
 		case 2:
-			return lista.get(row).getEmail();
+			return lista.get(row).getDescricao();
 		case 3:
-			return lista.get(row).getEndereco();
+			return lista.get(row).getCategoria();
 		case 4:
-			return lista.get(row).getEstado();
+			return lista.get(row).getCusto();
 		case 5:
-			return lista.get(row).getCidade();
-		case 6:
-			return lista.get(row).getTelefone();
-		case 7:
-			return lista.get(row).getGenero();
+			return lista.get(row).getPrecovenda();
+
 		default:
 			break;
-			
 		}
 		return null;
 	}
 	public String getColumnName(int column) {
 	    return (String) columnNames[column];
 	}
-
 
 }

@@ -19,5 +19,10 @@ public class Categoria {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getCategoria();
+	}
 	
 }

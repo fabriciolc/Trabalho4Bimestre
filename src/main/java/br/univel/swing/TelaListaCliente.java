@@ -5,9 +5,14 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
+import br.univel.model.Cliente;
+import br.univel.model.ClienteDao;
+import br.univel.model.ClienteDaoImpl;
 import br.univel.model.ModelTableCliente;
 
 import java.awt.GridBagLayout;
@@ -21,7 +26,9 @@ import java.awt.event.ActionEvent;
 public class TelaListaCliente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable tabelaCliente;
+	private static JTable tabelaCliente;
+	private static ModelTableCliente mtc = new ModelTableCliente();
+	private static TelaListaCliente instacia;
 
 	/**
 	 * Launch the application.
@@ -35,9 +42,14 @@ public class TelaListaCliente extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	public static TelaListaCliente getInstancia(){
+		if(instacia == null)
+			return instacia = new TelaListaCliente();
+		return instacia;
+	}
 
 	private void carregarTable(){
-		ModelTableCliente mtc = new ModelTableCliente();
+		
 		tabelaCliente.setModel(mtc);
 	}
 	
@@ -78,22 +90,85 @@ public class TelaListaCliente extends JDialog {
 						buscar();
 					}
 				});
+				{
+					JButton btnExcluir = new JButton("Excluir");
+					btnExcluir.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							excluir();
+						}
+					});
+					{
+						JButton btnAtualizar = new JButton("Atualizar");
+						btnAtualizar.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								atualizarTabela();
+							}
+						});
+						buttonPane.add(btnAtualizar);
+					}
+					buttonPane.add(btnExcluir);
+				}
+				{
+					JButton btnNewButton = new JButton("Editar");
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							TelaEditarCliente tec = new TelaEditarCliente();
+							tec.setVisible(true);
+							System.out.println("teste");
+						}
+					});
+					buttonPane.add(btnNewButton);
+				}
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				JButton btnSair = new JButton("Sair");
+				btnSair.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						sair();
+					}
+				});
+				btnSair.setActionCommand("Cancel");
+				buttonPane.add(btnSair);
 			}
 		}
 		carregarTable();
 	}
 
-	protected void buscar() {
+	protected void sair() {
+		this.dispose();
+		
+	}
+
+	protected static void atualizarTabela() {
+		mtc = new ModelTableCliente();
+		tabelaCliente.setModel(mtc);
 		
 		
+		
+	}
+
+	protected void excluir() {
+		Cliente c = new Cliente();
+		if(buscar() > 0){
+			c.setId(buscar());
+			ClienteDaoImpl cdi = new ClienteDaoImpl();
+			cdi.excluir(c);
+		}
+		atualizarTabela();
+		
+		
+		
+	}
+
+	protected int buscar() {
+		if(tabelaCliente.getSelectedRow() == -1){
+			JOptionPane.showMessageDialog(null, "Selecione alguem cliente na tabela");
+			return -1;
+		}
+		return (int)tabelaCliente.getValueAt(tabelaCliente.getSelectedRow(), 0);
 		
 	}
 
